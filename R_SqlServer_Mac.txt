@@ -1,0 +1,52 @@
+# Installation Instructions
+# From Terminal:
+>> nslookup <servername>
+<host will be the "Address" IP of the results
+>> brew install unixodbc
+>> brew install freetds -- with-unixodbc
+>> cd /usr/local/Cellar/freetds/1.00.24/etc/
+>> vi freetds.conf
+# insert mode: (i)
+>> SQL Server
+>>[yourservername]
+>>   host = <yourservernameip>
+>>   port = 1433
+>>   tds version = 7.0
+>> <esc> :wq!
+#Test FreeTDS Installation:  
+>> tsql -S [yourservername]  -U <username> -P <password>
+>> cd /usr/local/Cellar/unixodbc/2.3.4/
+>> vi odbcinst.ini
+# insert mode: (i)
+>>[FreeTDS]
+>> Description=FreeTDS Driver for Linux & MSSQL on Win32
+>> Driver=/usr/local/Cellar/freetds/1.00.24/lib/libtdsodbc.so
+>> Setup=/usr/local/Cellar/freetds/1.00.24/lib/libtdsodbc.so
+>> UsageCount=1
+>> <esc> :wq!
+>> vi odbc.ini
+>> [yourservername]
+>> Description         = Test to SQLServer
+>> Driver              = FreeTDS
+>> Trace               = Yes
+>> TraceFile           = /tmp/sql.log
+>> Database            = DISTRIBUTIONDM_DEV
+>> Servername          = <yourservername>
+>> UserName            = <username>
+>> Password            = <password>
+>> Port                = 1433
+>> Protocol            = 8.0
+>> ReadOnly            = No
+>> RowVersioning       = No
+>> ShowSystemTables    = No
+>> ShowOidColumn       = No
+>> FakeOidIndex        = No
+>> <esc> :wq!
+# Test ODBC Connection: 
+>> isql <yourservername> <username> <password> -v
+>> R
+>> remove.packages("RODBC")
+# Terminal:
+# download rodbc source from https://cran.r-project.org/web/packages/RODBC/index.html
+# R CMD INSTALL <your path to>/RODBC_1.3-13.tar.gz
+
