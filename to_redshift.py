@@ -71,7 +71,7 @@ def to_redshift(self, table_name, engine, s3_bucket, aws_access_key_id, aws_secr
 						access	= aws_access_key_id,
 						secret 	= aws_secret_access_key,
 						cols 	= column_mapping,
-						keyCon 	= key_cond,
+						keyCon 	= key_cond
 						)
         )
     elif how == 'append':
